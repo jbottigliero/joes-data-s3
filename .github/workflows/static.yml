@@ -23,4 +23,15 @@ jobs:
   static:
     uses: from-static/actions/.github/workflows/static.yml@main
     with:
+      deploy_to_github_pages: false
       generator_ref: "main"
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::431478890660:role/github_actions_role
+        aws-region: us-east-1
+    - run: |
+        aws s3 sync ./out s3://globus-jb-portals/joes-data-s3
