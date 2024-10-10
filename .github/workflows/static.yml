@@ -26,6 +26,7 @@ jobs:
       deploy_to_github_pages: false
       generator_ref: "main"
   deploy:
+    needs: [static]
     runs-on: ubuntu-latest
     steps:
     - name: Configure AWS Credentials
