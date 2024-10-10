@@ -29,10 +29,15 @@ jobs:
     needs: [static]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: github-pages
+    - run: mkdir artifact
+    - run: tar -xf artifact.tar -C ./artifact
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::431478890660:role/github_actions_role
         aws-region: us-east-1
     - run: |
-        aws s3 sync ./out s3://globus-jb-portals/joes-data-s3
+        aws s3 sync ./artifact s3://globus-jb-portals/joes-data-s3
